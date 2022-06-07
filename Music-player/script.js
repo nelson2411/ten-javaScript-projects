@@ -58,7 +58,6 @@ function pauseSong() {
 playBtn.addEventListener("click", () => (isPlaying ? pauseSong() : playSong()));
 
 // Update DOM
-
 function loadSong(song) {
   title.textContent = song.displayName;
   artist.textContent = song.artist;
