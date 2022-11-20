@@ -35,3 +35,70 @@ h1 {
 h1:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+
+/* Bookmarks */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item {
+  background: rgba(0, 0, 0, 0.5);
+  color: whitesmoke;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin: 10px;
+}
+
+.item:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+a {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+a:link,
+a:visited {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  text-decoration: underline;
+}
+
+.fa-regular {
+  float: right;
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
+  bottom: 10px;
+  left: 9px;
+}
+
+.name {
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.name img {
+  height: 20px;
+  width: 20px;
+  vertical-align: sub;
+  margin-right: 5px;
+}
+
+/* Media Queries for large smartphone (Vertical) */
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+}
