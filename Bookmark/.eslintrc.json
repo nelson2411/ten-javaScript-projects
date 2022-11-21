@@ -8,7 +8,10 @@
   },
   "rules": {
     "prettier/prettier": "error",
+    // remove unnecessary escape characters
+    "no-useless-escape": "off",
     "spaced-comment": "off",
+    "no-alert": "off",
     "no-console": "warn",
     "consistent-return": "off",
     "func-names": "off",
