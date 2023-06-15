@@ -8,16 +8,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #373b44; /* fallback for old browsers */
+  background: #abbaab; /* fallback for old browsers */
   background: -webkit-linear-gradient(
     to right,
-    #4286f4,
-    #373b44
+    #ffffff,
+    #abbaab
   ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
-    #4286f4,
-    #373b44
+    #ffffff,
+    #abbaab
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
@@ -68,4 +68,64 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* Buttons */
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+
+button {
+  min-height: 50px;
+  font-size: 20px;
+  font-weight: 100;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: rgb(199, 199, 199);
+}
+
+button:hover {
+  filter: brightness(120%);
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+button:focus {
+  outline: none;
+}
+
+.operator {
+  background: gray;
+  color: white;
+  font-size: 30px;
+}
+
+.clear {
+  background: #ff0000;
+  color: white;
+}
+
+.clear:hover {
+  filter: brightness(90%);
+}
+
+.equal-sign {
+  grid-column: -2;
+  grid-row: 2 / span 4;
+  background: rgb(6, 150, 62);
+}
+
+/* Media Queries 
+For large smartphones and tablets */
+@media screen and (max-width: 600px) {
+  .calculator {
+    width: 95%;
+  }
 }
