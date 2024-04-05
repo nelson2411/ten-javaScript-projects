@@ -7,6 +7,10 @@ This repository contains 10 vanilla JavaScript projects. Each project is designe
 3. Calculator
 4. Rock Scissors Paper Lizard Spock Game
 5. Form Validator
+6. Drag&Drop project
+7. Spock Rock Scissor Game
+8. Joke Teller
+9. Light-Dark Theme
 
 ## Features
 
