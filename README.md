@@ -11,6 +11,7 @@ This repository contains 10 vanilla JavaScript projects. Each project is designe
 7. Spock Rock Scissor Game
 8. Joke Teller
 9. Light-Dark Theme
+10. NASA APOD
 
 ## Features
 

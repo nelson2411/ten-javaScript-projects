@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NASA API Pictures</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://s2.googleusercontent.com/s2/favicons?domain=www.nasa.gov"
+    />
+    <!-- ZTM Favicon -->
+    <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
+  </head>
+  <body>
+    <!-- Loader -->
+    <div class="loader hidden">
+      <img src="rocket-1.svg" alt="Rocket" />
+    </div>
+    <!-- Container -->
+    <div class="container">
+      <!-- Navigation-->
+      <div class="navigation-container">
+        <span class="backgropund">
+          <!-- Results Nav -->
+          <span class="navigation-items" id="resultsNav">
+            <h3 class="clickable">Favorites</h3>
+            <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
+            <h3 class="clickable">Load More</h3>
+          </span>
+          <!-- Favorites Nav -->
+          <span class="navigation-items hidden" id="favoritesNav">
+            <h3 class="clickable">Load More NASA Images</h3>
+          </span>
+        </span>
+      </div>
+      <!-- Images container -->
+      <div class="images-container">
+        <div class="card">
+          <a href="" title="View Full Image" class="" target="_blank">
+            <img
+              src="https://apod.nasa.gov/apod/image/2404/M51Unwound.jpg"
+              alt="NASA Picture of the day"
+              class="card-img-top"
+            />
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">Title of Image</h5>
+            <p class="clickable-card">Add to Favorites</p>
+            <p class="card-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+              cupiditate corrupti rerum ducimus optio libero sequi perferendis
+              laborum, maxime cumque ab dolore doloremque! Eum distinctio rerum
+              ullam cupiditate eveniet totam. Lorem ipsum dolor, sit amet
+              consectetur adipisicing elit. Tenetur et necessitatibus architecto
+              voluptatem facere blanditiis quis, quidem possimus. Hic, adipisci
+              fugit ad asperiores corrupti architecto tempora delectus facilis
+              debitis ut.
+            </p>
+            <small class="text-muted">
+              <strong>04-06-2024</strong>
+              <span>&copy; NASA</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Save Confirmation -->
+    <div class="save-confirmed">
+      <h1>ADDED!</h1>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+  </body>
+</html>
