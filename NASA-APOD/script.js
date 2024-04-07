@@ -9,10 +9,13 @@ const count = 10
 const apiKey = "DEMO_KEY"
 const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`
 
-let resultsArray = []
+let resultsArray = [] // Array to store the images
+let favorites = {} // Object to store the favorite images
 
-function updateDOM() {
-  resultsArray.forEach((result) => {
+function createDOMNodes(page) {
+  const currentArray =
+    page === "results" ? resultsArray : Object.values(favorites)
+  currentArray.forEach((result) => {
     // Card Container
     const card = document.createElement("div")
     card.classList.add("card")
@@ -38,6 +41,7 @@ function updateDOM() {
     const saveText = document.createElement("p")
     saveText.classList.add("clickable")
     saveText.textContent = "Add to Favorites"
+    saveText.setAttribute("onclick", `saveFavorite('${result.url}')`)
     // Card Text --> Description
     const cardText = document.createElement("p")
     cardText.textContent = result.explanation
@@ -61,16 +65,43 @@ function updateDOM() {
   })
 }
 
+function updateDOM(page) {
+  // Get Favorites from Local Storage
+  if (localStorage.getItem("nasaFavorites")) {
+    favorites = JSON.parse(localStorage.getItem("nasaFavorites"))
+  }
+
+  createDOMNodes(page)
+}
+
 /* 
 set the asynchrnous function to fetch the data from the API
 Getting 10 images from the NASA API
 */
 
+// Save to favorites function
+
+function saveFavorite(itemUrl) {
+  // Loop Through Results Array to select Favorite
+  resultsArray.forEach((item) => {
+    if (item.url.includes(itemUrl) && !favorites[itemUrl]) {
+      favorites[itemUrl] = item
+      // Show Save Confirmation for 2 seconds
+      saveConfirmed.hidden = false
+      setTimeout(() => {
+        saveConfirmed.hidden = true
+      }, 2000)
+      // Set Favorites in Local Storage
+      localStorage.setItem("nasaFavorites", JSON.stringify(favorites))
+    }
+  })
+}
+
 async function getNasaPictures() {
   try {
     const response = await fetch(apiUrl)
     resultsArray = await response.json()
-    updateDOM()
+    updateDOM("favorites")
     console.log("resultsArray", resultsArray)
   } catch (error) {
     console.log("error", error)
