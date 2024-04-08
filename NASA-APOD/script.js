@@ -12,6 +12,19 @@ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${co
 let resultsArray = [] // Array to store the images
 let favorites = {} // Object to store the favorite images
 
+// Show Content Function
+function showContent(page) {
+  window.scrollTo({ top: 0, behavior: "smooth" }) // this helps to scroll to the top of the page
+  if (page === "results") {
+    resultsNav.classList.remove("hidden")
+    favoritesNav.classList.add("hidden")
+  } else {
+    resultsNav.classList.add("hidden")
+    favoritesNav.classList.remove("hidden")
+  }
+  loader.classList.add("hidden")
+}
+
 function createDOMNodes(page) {
   const currentArray =
     page === "results" ? resultsArray : Object.values(favorites)
@@ -39,9 +52,14 @@ function createDOMNodes(page) {
     cardTitle.textContent = result.title
     // Save Text --> Button
     const saveText = document.createElement("p")
-    saveText.classList.add("clickable")
-    saveText.textContent = "Add to Favorites"
-    saveText.setAttribute("onclick", `saveFavorite('${result.url}')`)
+    saveText.classList.add("clickable-card")
+    if (page === "results") {
+      saveText.textContent = "Add to Favorites"
+      saveText.setAttribute("onclick", `saveFavorite('${result.url}')`)
+    } else {
+      saveText.textContent = "Remove Favorite"
+      saveText.setAttribute("onclick", `removeFavorite('${result.url}')`)
+    }
     // Card Text --> Description
     const cardText = document.createElement("p")
     cardText.textContent = result.explanation
@@ -70,8 +88,10 @@ function updateDOM(page) {
   if (localStorage.getItem("nasaFavorites")) {
     favorites = JSON.parse(localStorage.getItem("nasaFavorites"))
   }
+  imagesContainer.textContent = ""
 
   createDOMNodes(page)
+  showContent(page)
 }
 
 /* 
@@ -86,6 +106,7 @@ function saveFavorite(itemUrl) {
   resultsArray.forEach((item) => {
     if (item.url.includes(itemUrl) && !favorites[itemUrl]) {
       favorites[itemUrl] = item
+
       // Show Save Confirmation for 2 seconds
       saveConfirmed.hidden = false
       setTimeout(() => {
@@ -97,11 +118,23 @@ function saveFavorite(itemUrl) {
   })
 }
 
+// Remove Favorite Function
+function removeFavorite(itemUrl) {
+  if (favorites[itemUrl]) {
+    delete favorites[itemUrl] // "delete" is a JS keyword to remove an object property
+    // Set Favorites in Local Storage
+    localStorage.setItem("nasaFavorites", JSON.stringify(favorites))
+    updateDOM("favorites")
+  }
+}
+
 async function getNasaPictures() {
+  // Show Loader
+  loader.classList.remove("hidden")
   try {
     const response = await fetch(apiUrl)
     resultsArray = await response.json()
-    updateDOM("favorites")
+    updateDOM("results")
     console.log("resultsArray", resultsArray)
   } catch (error) {
     console.log("error", error)
