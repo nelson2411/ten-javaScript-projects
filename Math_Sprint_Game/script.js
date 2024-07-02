@@ -22,6 +22,7 @@ const playAgainBtn = document.querySelector(".play-again")
 let questionAmount = 0
 let equationsArray = []
 let playerGuessArray = [] // This will store the player's guesses, either true or false
+let bestScoresArray = []
 
 // Game Page
 let firstNumber = 0
@@ -30,9 +31,135 @@ let equationObject = {}
 const wrongFormat = []
 
 // Time
+let timer
+let timePlayed = 0 // This will be the time played in seconds
+let baseTime = 0 // This will be the base time in seconds
+let penaltyTime = 0 // This will be the penalty time in seconds
+let finalTime = 0 // This will be the final time in seconds
+let finalTimeDisplay = "0.0"
 
 // Scroll
 let valueY = 0 // This value will represent the Y axis of the scroll bar
+
+// Refresh Splash Page Best Scores
+const bestScoresToDOM = () => {
+  bestScores.forEach((bestScore, index) => {
+    const bestScoreEl = bestScore
+    bestScoreEl.textContent = `${bestScoresArray[index].bestScore}s`
+  })
+}
+
+// Check Local Storage for Best Scores, set bestScoresArray values
+const getSavedBestScores = () => {
+  if (localStorage.getItem("bestScores")) {
+    bestScoresArray = JSON.parse(localStorage.bestScores)
+  } else {
+    bestScoresArray = [
+      { questions: 10, bestScore: finalTimeDisplay },
+      { questions: 25, bestScore: finalTimeDisplay },
+      { questions: 50, bestScore: finalTimeDisplay },
+      { questions: 99, bestScore: finalTimeDisplay },
+    ]
+    localStorage.setItem("bestScores", JSON.stringify(bestScoresArray))
+  }
+  bestScoresToDOM()
+}
+
+// Update Best Score Array
+const updateBestScore = () => {
+  bestScoresArray.forEach((score, index) => {
+    // Select correct Best Score to update
+    if (questionAmount == score.questions) {
+      // Return Best Score as number with one decimal
+      const savedBestScore = Number(bestScoresArray[index].bestScore)
+      // Update if the new final score is less or replacing zero
+      if (savedBestScore === 0 || savedBestScore > finalTime) {
+        bestScoresArray[index].bestScore = finalTime.toFixed(1)
+      }
+    }
+  })
+  bestScoresToDOM()
+  localStorage.setItem("bestScores", JSON.stringify(bestScoresArray))
+}
+
+// Reset the Game
+const playAgain = () => {
+  gamePage.addEventListener("click", startTimer)
+  scorePage.hidden = true
+  splashPage.hidden = false
+  equationsArray = []
+  playerGuessArray = []
+  valueY = 0
+  playAgainBtn.hidden = true
+}
+
+// Show Score Page
+const showScorePage = () => {
+  // Show Play Again Button after 1 second
+  setTimeout(() => {
+    playAgainBtn.hidden = false
+  }, 1000)
+
+  gamePage.hidden = true
+  scorePage.hidden = false
+}
+
+// Scores to the DOM
+const scoresToDOM = () => {
+  finalTimeDisplay = finalTime.toFixed(1) // Convert to seconds
+  baseTime = timePlayed.toFixed(1) // Convert to seconds
+  penaltyTime = penaltyTime.toFixed(1) // Convert to seconds
+  baseTimeEl.textContent = `Base Time: ${baseTime}s`
+  penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`
+  finalTimeEl.textContent = `${finalTimeDisplay}s`
+  updateBestScore()
+  // Scroll to Top, go to Score Page
+  itemContainer.scrollTo({ top: 0, behavior: "instant" })
+  showScorePage()
+}
+
+// Stop the timer, process results, go to score page
+function checkTime() {
+  console.log(timePlayed)
+  if (playerGuessArray.length == questionAmount) {
+    clearInterval(timer)
+    // Check for wrong guesses, add penalty time
+    equationsArray.forEach((equation, index) => {
+      if (equation.evaluated === playerGuessArray[index]) {
+        // Correct guess, no penalty
+      } else {
+        // Incorrect guess, add penalty
+        penaltyTime += 0.5
+      }
+    })
+    finalTime = timePlayed + penaltyTime
+    console.log(
+      "time:",
+      timePlayed,
+      "penalty:",
+      penaltyTime,
+      "final:",
+      finalTime
+    )
+    scoresToDOM()
+  }
+}
+
+// Add a tenth of a second to timePlayed
+const addTime = () => {
+  timePlayed += 0.1
+  checkTime()
+}
+
+// Start timer, add a tenth of a second to timePlayed
+const startTimer = () => {
+  // Reset time and clear any existing intervals
+  timePlayed = 0
+  penaltyTime = 0
+  finalTime = 0
+  timer = setInterval(addTime, 100)
+  gamePage.removeEventListener("click", startTimer)
+}
 
 // Scroll and store the value in valueY
 const select = (guessedTrue) => {
@@ -149,7 +276,7 @@ const showCountdown = () => {
   //populateGamePage()
   countdownStart()
   populateGamePage()
-  setTimeout(showGamePage, 400)
+  setTimeout(showGamePage, 4000)
 }
 
 // Get the value from selected radio button
@@ -186,3 +313,7 @@ startForm.addEventListener("click", () => {
 
 // Event Listeners ✨
 startForm.addEventListener("submit", selectQuestionAmount)
+gamePage.addEventListener("click", startTimer)
+
+// On Load
+getSavedBestScores()
