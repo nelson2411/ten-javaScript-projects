@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: firacode, sans-serif;
+  color: #54575a;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #f3f8f7 49.91%,
+    #fff9f5 94.19%
+  );
+}
+
+.wrapper {
+  position: relative;
+  width: 1440px;
+  min-height: 100vh;
+  margin: auto;
+}
+
+.title {
+  position: absolute;
+  width: 458px;
+  height: 135px;
+  left: 221px;
+  top: 236px;
+  font-size: 64px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 67px;
+}
+
+.text {
+  position: absolute;
+  width: 394px;
+  height: 96px;
+  top: 403px;
+  left: 221px;
+  gap: 0px;
+  opacity: 0px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 32px;
+  text-align: left;
+}
